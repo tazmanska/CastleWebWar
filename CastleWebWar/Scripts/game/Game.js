@@ -86,6 +86,10 @@ $(function () {
     });
 
     setInterval(Game_PlayerUpdate, 100);
+
+    $(window).on("colission", function () {
+        gameHub.server.bulletLanded(gameId, playerName);
+    });
     
 });
 

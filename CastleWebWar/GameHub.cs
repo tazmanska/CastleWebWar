@@ -125,5 +125,14 @@ namespace CastleWebWar
                 game.PlayerFired(power);
             }
         }
+
+        public void bulletLanded(string gameId, string playerName)
+        {
+            Game game = GameCollection.Get(gameId);
+            if (game != null)
+            {
+                game.BulletLanded(playerName);
+            }
+        }
     }
 }

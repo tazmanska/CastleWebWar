@@ -13,7 +13,9 @@ namespace CastleWebWar.Models
         Player1Fired,
         Player2,
         Player2Fired,
-        End
+        Player1ShootEnd,
+        End,
+        Player2ShootEnd
     }
 
     public class Game
@@ -108,16 +110,23 @@ namespace CastleWebWar.Models
             }
         }
 
+        private bool _player1ShootEnd = false;
+        private bool _player2ShootEnd = false;
+
         public void PlayerFired(int power)
         {
             switch (Stage)
             {
                 case GameStage.Player1:
+                    _player1ShootEnd = false;
+                    _player2ShootEnd = false;
                     Stage = GameStage.Player1Fired;
                     return;
 
                 case GameStage.Player2:
-                    Stage = GameStage.Player2Fired;
+                    _player1ShootEnd = false;
+                    _player2ShootEnd = false;
+                    Stage = GameStage.Player1Fired;
                     return;
             }
         }
@@ -126,11 +135,11 @@ namespace CastleWebWar.Models
         {
             switch (Stage)
             {
-                case GameStage.Player1Fired:
+                case GameStage.Player1ShootEnd:
                     Stage = GameStage.Player2;
                     return true;
 
-                case GameStage.Player2Fired:
+                case GameStage.Player2ShootEnd:
                     Stage = GameStage.Player1;
                     return true;
 
@@ -150,6 +159,36 @@ namespace CastleWebWar.Models
             {
                 PlayerRightPower = power;
                 PlayerRightAngle = angle;
+            }
+        }
+
+        public void BulletLanded(string player)
+        {
+            if (Stage != GameStage.Player1Fired && Stage != GameStage.Player2Fired)
+            {
+                return;
+            }
+
+            if (player == PlayerLeft)
+            {
+                _player1ShootEnd = true;
+            }
+            if (player == PlayerRight)
+            {
+                _player2ShootEnd = true;
+            }
+            if (_player1ShootEnd && _player2ShootEnd)
+            {
+                switch (Stage)
+                {
+                    case GameStage.Player1Fired:
+                        Stage = GameStage.Player1ShootEnd;
+                        return;
+
+                    case GameStage.Player2Fired:
+                        Stage = GameStage.Player2ShootEnd;
+                        return;
+                }
             }
         }
     }

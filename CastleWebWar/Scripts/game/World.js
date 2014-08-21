@@ -45,9 +45,9 @@
         //        radius: 20
         //    })
         //);
-
-        // ensure objects bounce when edge collision is detected
-        //world.add(Physics.behavior('body-impulse-response'));
+        
+        var edgeCollisionDetectionBehaviour = Physics.behavior('edge-collision-detection', { aabb: viewportBounds } );
+        world.add(edgeCollisionDetectionBehaviour);
 
         // add some gravity
         world.add(Physics.behavior('constant-acceleration'));
@@ -60,7 +60,20 @@
 
         // start the ticker
         Physics.util.ticker.start();
-
+                
+        world.on('collisions:detected', function (data) {
+            var c;
+            for (var i = 0, l = data.collisions.length; i < l; i++) {
+                c = data.collisions[i];
+                if (c.bodyA.label == 'bullet' || c.bodyA.label == 'brick') {
+                    world.removeBody(c.bodyA);
+                }
+                if (c.bodyB.label == 'bullet' || c.bodyB.label == 'brick') {
+                    world.removeBody(c.bodyA);
+                }
+                $(window).trigger("colission");
+            }
+        });
     });
 
 

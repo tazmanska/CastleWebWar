@@ -59,6 +59,7 @@
     self.shoot = function (power) {
         world.add(
            Physics.body('circle', {
+               label: 'bullet',
                x: self.x, // x-coordinate
                y: self.y, // y-coordinate
                vx:self.toRight ? 0.8 : -0.8, // velocity in x-direction
