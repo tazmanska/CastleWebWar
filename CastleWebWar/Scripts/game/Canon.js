@@ -54,16 +54,35 @@
             var radians = Math.acos(v1.x / v1Length);
             angle = (radians * 180) / Math.PI;
         }
+        self.v1 = v1;
         self.setDegree(angle);
     }
+    self.getAngleRadians = function () {
+        return self.angle * Math.PI / 180;
+    }
     self.shoot = function (power) {
+        var vx, vy;
+
+        var c = power / 50;
+
+        var b = Math.cos(self.getAngleRadians()) * c;
+        var a = Math.sin(self.getAngleRadians()) * c;
+
+        if (self.toRight) {           
+            vx = b;
+            vy = a * -1;
+        } else {            
+            vx = b * -1;
+            vy = a * -1;
+        }
+
         world.add(
            Physics.body('circle', {
                label: 'bullet',
                x: self.x, // x-coordinate
                y: self.y, // y-coordinate
-               vx:self.toRight ? 0.8 : -0.8, // velocity in x-direction
-               vy: -0.3, // velocity in y-direction
+               vx: vx,
+               vy: vy,
                radius: 20
            })
        );
