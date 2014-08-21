@@ -166,6 +166,36 @@
     <Content Include="Scripts\jquery.signalR-2.0.1.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\physics\behaviors\attractor.js" />
+    <Content Include="Scripts\physics\behaviors\body-collision-detection.js" />
+    <Content Include="Scripts\physics\behaviors\body-impulse-response.js" />
+    <Content Include="Scripts\physics\behaviors\constant-acceleration.js" />
+    <Content Include="Scripts\physics\behaviors\edge-collision-detection.js" />
+    <Content Include="Scripts\physics\behaviors\interactive.js" />
+    <Content Include="Scripts\physics\behaviors\newtonian.js" />
+    <Content Include="Scripts\physics\behaviors\sweep-prune.js" />
+    <Content Include="Scripts\physics\behaviors\verlet-constraints.js" />
+    <Content Include="Scripts\physics\bodies\circle.js" />
+    <Content Include="Scripts\physics\bodies\convex-polygon.js" />
+    <Content Include="Scripts\physics\bodies\rectangle.js" />
+    <Content Include="Scripts\physics\docs\css\highlight-nearly-solarized.css" />
+    <Content Include="Scripts\physics\docs\css\highlight.css" />
+    <Content Include="Scripts\physics\docs\css\style.css" />
+    <Content Include="Scripts\physics\docs\css\style.old.css" />
+    <Content Include="Scripts\physics\docs\index.html" />
+    <Content Include="Scripts\physics\docs\js\page.js" />
+    <Content Include="Scripts\physics\geometries\circle.js" />
+    <Content Include="Scripts\physics\geometries\convex-polygon.js" />
+    <Content Include="Scripts\physics\geometries\rectangle.js" />
+    <Content Include="Scripts\physics\integrators\improved-euler.js" />
+    <Content Include="Scripts\physics\MIT-LICENSE.txt" />
+    <Content Include="Scripts\physics\physicsjs-0.6.0.js" />
+    <Content Include="Scripts\physics\physicsjs-0.6.0.min.js" />
+    <Content Include="Scripts\physics\physicsjs-full-0.6.0.js" />
+    <Content Include="Scripts\physics\physicsjs-full-0.6.0.min.js" />
+    <Content Include="Scripts\physics\renderers\canvas.js" />
+    <Content Include="Scripts\physics\renderers\dom.js" />
+    <Content Include="Scripts\physics\renderers\pixi-renderer.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -185,6 +215,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\Game.cshtml" />
+    <Content Include="Scripts\physics\docs\css\config.rb" />
+    <Content Include="Scripts\physics\docs\css\highlight-nearly-solarized.scss" />
+    <Content Include="Scripts\physics\docs\css\style.scss" />
+    <Content Include="Scripts\physics\docs\css\_colors.scss" />
+    <Content Include="Scripts\physics\docs\debug.json" />
+    <Content Include="Scripts\physics\docs\layout.jade" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
