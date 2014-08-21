@@ -159,7 +159,10 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\game\Canon.js" />
     <Content Include="Scripts\game\Game.js" />
+    <Content Include="Scripts\game\Vector.js" />
+    <Content Include="Scripts\game\World.js" />
     <Content Include="Scripts\game\PowerMeter.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
