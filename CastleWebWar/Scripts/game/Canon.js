@@ -1,4 +1,4 @@
-﻿var Canon = function (selector, toRight, onDegreeChanged) {
+﻿var Canon = function (selector, toRight, onAngleChanged) {
     var active = false;
     var direction = 1;
     var self = this;
@@ -15,7 +15,7 @@
         return active;
     }
     self.angle = self.minAngle;
-    self.setDegree = function (angle) {
+    self.setAngle = function (angle) {
         if (angle < self.minAngle) {
             angle = self.minAngle;
         } else if (angle > self.maxAngle) {
@@ -26,8 +26,8 @@
         self.barrel.css("transform-origin", self.rotateShift + "px 50%");
 
         self.angle = angle;
-        if (typeof onDegreeChanged == "function") {
-            onDegreeChanged(angle);
+        if (typeof onAngleChanged == "function") {
+            onAngleChanged(angle);
         }
     };
     self.calculateRotationCenter = function () {
@@ -39,8 +39,8 @@
         self.rotateShift = self.x - $barrel.offset().left;
     };
     self.calculateRotationCenter();
-    self.setDegree(self.minAngle);
-    self.calculateDegree = function (event) {
+    self.setAngle(self.minAngle);
+    self.calculateAngle = function (event) {
         var v1;
         if (self.toRight) {
             v1 = new Vector(event.pageX - self.x, self.y - event.pageY);
@@ -55,7 +55,7 @@
             angle = (radians * 180) / Math.PI;
         }
         self.v1 = v1;
-        self.setDegree(angle);
+        self.setAngle(angle);
     }
     self.getAngleRadians = function () {
         return self.angle * Math.PI / 180;
@@ -93,7 +93,7 @@
         if (!active)
             return;
 
-        self.calculateDegree(event);
+        self.calculateAngle(event);
     });
 };
 Canon.prototype.widthShift = 60;

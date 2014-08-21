@@ -122,7 +122,9 @@ namespace CastleWebWar
             Game game = GameCollection.Get(gameId);
             if (game != null)
             {
+                var player = game.GetPlayerForMove();
                 game.PlayerFired(power);
+                Clients.Group(gameId).playerFired(player, power, angle);
             }
         }
 

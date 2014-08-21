@@ -126,7 +126,7 @@ namespace CastleWebWar.Models
                 case GameStage.Player2:
                     _player1ShootEnd = false;
                     _player2ShootEnd = false;
-                    Stage = GameStage.Player1Fired;
+                    Stage = GameStage.Player2Fired;
                     return;
             }
         }

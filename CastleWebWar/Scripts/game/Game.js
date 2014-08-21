@@ -32,7 +32,7 @@ $(function () {
     
     pow = PowerMeter("#progressbar");
     pow.callback(function(value) {
-        Game_PlayerFired();
+        Game_SendPlayerFired();
     });
 
     playerElement = $("#" + playerId);
@@ -75,9 +75,17 @@ $(function () {
         }
     };
 
+    gameHub.client.playerFired = function (player, power, angle) {
+        if (player == playerName) {
+            Game_PlayerFired(power, angle);
+        } else {
+            Game_OtherPlayerFired(power, angle);
+        }
+    };
+
     gameHub.client.playerMove = function(player, power, angle) {
         if (player != playerName) {                    
-            otherCannon.setDegree(angle);
+            otherCannon.setAngle(angle);
         }
     };
 
@@ -104,7 +112,7 @@ function Game_Start() {
 function Game_PlayerUpdate() {
     if (playerMove) {
         console.log("player-move"); 
-        var angle = parseInt(yourCannon.degree);                                                
+        var angle = parseInt(yourCannon.angle);                                                
         gameHub.server.playerMoved(gameId, playerName, pow.power(), angle);
     }
 }
@@ -118,17 +126,28 @@ function Game_PlayerFire() {
     yourCannon.setIsActive(true);
 }
 
+
+function Game_PlayerFired(power, angle) {
+    yourCannon.setAngle(angle);
+    yourCannon.shoot(power);
+}
+
+function Game_OtherPlayerFired(power, angle) {
+    otherCannon.setAngle(angle);
+    otherCannon.shoot(power);
+}
+
+
 function Game_OtherPlayerFire() {
     playerElement.removeClass("fire");
     otherPlayerElement.addClass("fire");
 }
 
-function Game_PlayerFired() {
+function Game_SendPlayerFired() {
     playerMove = false;
     pow.enable(false);
-    var angle = 0;
+    var angle = parseInt(yourCannon.angle);
     var power = pow.power();
     gameHub.server.playerFired(gameId, power, angle);
-    yourCannon.setIsActive(false);
-    yourCannon.shoot(power);   
+    yourCannon.setIsActive(false);     
 }
