@@ -1,0 +1,112 @@
+﻿html, body
+{
+    height: 100%;
+}
+
+
+#game {
+    padding-top: 2px;
+    padding-left: 0px;
+    width: 1600px; 
+    height: 900px; 
+    margin: 0 auto;
+    background-position:center;
+    background-image: url(img/sky-grass.jpg);
+    background-repeat: no-repeat;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+
+#game-info {
+    font-size: 18px;
+}
+
+.playerinfo {
+    font-size: 18px;
+}
+
+.player {
+    width: 800px;
+}
+
+.ingame {
+    color: green;
+    font-weight: bold;
+}
+
+.fire {
+    background-color: yellow;
+}
+
+
+.progressbar {
+ width: 25px;
+ height: 215px;
+ position: relative;
+} 
+.progressbar-value {
+font-family: Segoe UI,Arial,sans-serif;
+ position: absolute;
+ display: block;
+ margin: 0;
+ border: 0;
+ width: 15px;
+ height: 200px;
+ top: 7px;
+ left: 5px;
+ overflow: hidden;
+ text-indent: -30px;
+ background: url(img/minc5g.png) repeat scroll center center #0f0;
+}
+.progressbar-cover {
+ position: absolute;
+ display: block;
+ width: 15px;
+ height: 200px;
+ border: 0;
+ left: 0;
+ bottom: 0%;
+ background: url(img/1zwge3s.png) repeat-x scroll 0 0 transparent;
+}
+
+
+#playground {
+    position:relative;
+    padding-top:400px;
+}
+#ground {
+    height:50px;  
+}
+.canon{
+    position:absolute;
+    top:320px;
+}
+#cannon-right {    
+    left:82%;
+}
+#cannon-left {   
+    left:2%;
+}
+.barrel {    
+    width:204px;
+    height:200px;   
+}
+#cannon-left .barrel {
+    background:url(img/canon-left.png) no-repeat center;
+}
+#cannon-right .barrel {
+    background:url(img/canon-right.png) no-repeat center;
+}
+.canon .wheel {
+    background:url(img/wheel2.png) no-repeat center;
+    width:66px;
+    height:66px;
+    position:relative;
+    top: -100px;
+    left: 10px;
+}
+#cannon-right .wheel {
+    left:120px;
+}

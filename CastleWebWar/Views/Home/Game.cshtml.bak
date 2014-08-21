@@ -1,0 +1,154 @@
+﻿@model CastleWebWar.Models.GameView
+
+@{
+    ViewBag.Title = "Game";
+}
+
+@section css
+{
+    <link href="~/Content/Game.css" rel="stylesheet" />
+}
+
+<div id="game">
+    <div id="game-info"><label class="player">Player 1: <span class="playerinfo" id="player1">waiting for player</span></label><label class="player">Player 2: <span class="playerinfo" id="player2">waiting for player</span></label></div>
+    
+    <div id="progressbar" class="progressbar">
+        <span class="progressbar-value">
+            <em class="progressbar-cover"></em>
+        </span>
+    </div>
+     <div id="playground">
+            <div id="ground"></div>
+            <div id="cannon-left"  class="canon">
+                <div class="barrel"></div>
+                <div class="wheel"></div>
+            </div>
+            <div id="cannon-right" class="canon">
+                <div class="barrel"></div>
+                <div class="wheel"></div>
+            </div>
+        </div>
+</div>
+
+@section scripts {
+
+    <script src="/Scripts/jquery.signalR-2.0.1.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <script src="~/Scripts/game/Game.js"></script>
+    <script src="~/Scripts/game/PowerMeter.js"></script>
+
+    <script type="text/javascript">
+
+        var playerId = '@(Model.PlayerName == Model.Game.PlayerLeft ? "player1" : "player2")';
+        var playerName = '@Model.PlayerName';
+
+        var otherPlayerId = '@(Model.PlayerName == Model.Game.PlayerLeft ? "player2" : "player1")';
+        var isOtherPlayerPresent = @(Model.PlayerName == Model.Game.PlayerLeft ? "false" : "true");
+
+        var otherPlayerName = '@(Model.PlayerName == Model.Game.PlayerLeft ? "" : Model.Game.PlayerLeft)';
+
+        var isFirstMove = !isOtherPlayerPresent;
+        var isPlayerLeft = @(Model.PlayerName == Model.Game.PlayerLeft ? "true" : "false");
+        
+        var gameId = '@Model.Game.Id';
+
+        var playerElement = null;
+        var otherPlayerElement = null;
+        var game = Game();
+
+        var gameHub = $.connection.gameHub;
+        var powerElement = null;
+        var pow = null;        
+		var playerMove = false;
+        var yourCannon = null;  
+        var otherCannon = null;      
+
+        $(function () {
+
+            powerElement = $("#progressbar");
+            var left = $("#game").width() - 30;
+            if (isPlayerLeft) {
+                left = 10;
+            }
+            powerElement.css({left: left, top: 300});
+            powerElement.show();   
+    
+            pow = PowerMeter("#progressbar");
+            pow.callback(function(value) {
+                Game_PlayerFired();
+            });
+
+            playerElement = $("#" + playerId);
+            playerElement.text("YOU");
+            playerElement.addClass("ingame");
+
+            otherPlayerElement = $("#" + otherPlayerId)
+
+            if (isOtherPlayerPresent) {
+                otherPlayerElement.text(otherPlayerName);
+                otherPlayerElement.addClass("ingame");
+            }
+
+            gameHub.client.playerJoined = function(playerName) {
+                if (!isOtherPlayerPresent) {
+                    isOtherPlayerPresent = true;
+                    otherPlayerName = playerName;
+                    otherPlayerElement.text(otherPlayerName);
+                    otherPlayerElement.addClass("ingame");
+                    Game_Start();
+                }
+            };
+
+            gameHub.client.playerFire = function(player) {
+                if (player == playerName) {
+                    Game_PlayerFire();
+                } else {
+                    Game_OtherPlayerFire();
+                }
+            };
+
+            $.connection.hub.start().done(function () {
+                gameHub.server.join(gameId, playerName);
+            });
+
+            var cannonRight = new Canon("#cannon-right", false);
+            var cannonLeft = new Canon("#cannon-left", true);    
+            if(isPlayerLeft){
+                yourCannon = cannonLeft;
+                otherCannon = cannonRight;
+            }
+            else{
+                yourCannon = cannonRight; 
+                otherCannon = cannonLeft;     
+            }
+        });
+
+        function Game_Start() {
+            if (isFirstMove) {
+                gameHub.server.start(gameId);
+            }
+        }
+
+        function Game_PlayerFire() {
+            playerElement.addClass("fire");
+            otherPlayerElement.removeClass("fire");
+            pow.reset();
+            pow.enable(true);
+            yourCannon.setIsActive(true);
+        }
+
+        function Game_OtherPlayerFire() {
+            playerElement.removeClass("fire");
+            otherPlayerElement.addClass("fire");
+        }
+
+        function Game_PlayerFired() {
+            pow.enable(false);
+            var angle = 0;
+            var power = pow.power();
+            gameHub.server.playerFired(gameId, power, angle);
+            yourCannon.setIsActive(false);
+        }
+
+    </script>
+}
