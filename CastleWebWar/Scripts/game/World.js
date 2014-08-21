@@ -3,10 +3,16 @@
     Physics(function (world) {
         window.world = world;
 
-        var viewWidth = window.innerWidth
-        , viewHeight = window.innerHeight
+        var gameArea = $("#game");
+        var gameInfoArea = $("#game-info");
+
+        var offsetTop = gameInfoArea.offset().top + gameInfoArea.height();
+        var offsetLeft = gameArea.offset().left;
+
+        var viewWidth = gameArea.width()
+        , viewHeight = gameArea.height() - gameInfoArea.height()
         // bounds of the window
-        , viewportBounds = Physics.aabb(0, 0, viewWidth, viewHeight)
+        , viewportBounds = Physics.aabb(offsetLeft, offsetTop, viewWidth + offsetLeft, viewHeight + offsetTop)
         //, edgeBounce
         //, renderer
         ;
@@ -14,8 +20,8 @@
 
         var renderer = Physics.renderer('canvas', {
             el: 'viewport',
-            width: viewWidth,
-            height: viewHeight,
+            width: window.innerWidth,// viewWidth + gameArea.offset().left,
+            height: window.innerHeight,// viewHeight + offsetTop,
             meta: false, // don't display meta data
             styles: {
                 // set colors for the circle bodies
@@ -24,6 +30,9 @@
                     lineWidth: 1,
                     fillStyle: '#d33682',
                     angleIndicator: '#351024'
+                },
+                'rectangle': {
+                    fillStyle: '#ff0000'
                 }
             }
         });
@@ -45,6 +54,14 @@
         //        radius: 20
         //    })
         //);
+
+        world.addBody(Physics.body('rectangle', {
+            x: offsetLeft + 100,
+            y: 500,
+            width: 20,
+            height: 20,
+            label: 'brick'
+        }));
         
         var edgeCollisionDetectionBehaviour = Physics.behavior('edge-collision-detection', { aabb: viewportBounds } );
         world.add(edgeCollisionDetectionBehaviour);
@@ -63,14 +80,20 @@
                 
         world.on('collisions:detected', function (data) {
             var c;
+            var triggerEvent = false;
             for (var i = 0, l = data.collisions.length; i < l; i++) {
                 c = data.collisions[i];
+                bullet = null;
                 if (c.bodyA.label == 'bullet' || c.bodyA.label == 'brick') {
                     world.removeBody(c.bodyA);
+                    triggerEvent = true;
                 }
                 if (c.bodyB.label == 'bullet' || c.bodyB.label == 'brick') {
                     world.removeBody(c.bodyA);
+                    triggerEvent = true;
                 }
+            }
+            if (triggerEvent) {
                 $(window).trigger("colission");
             }
         });
