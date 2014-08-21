@@ -76,16 +76,20 @@
             vy = a * -1;
         }
 
+        
+
+        var bullet = Physics.body('circle', {
+            label: 'bullet',
+            x: self.x, // x-coordinate
+            y: self.y, // y-coordinate
+            vx: vx,
+            vy: vy,
+            radius: 20
+        });
         world.add(
-           Physics.body('circle', {
-               label: 'bullet',
-               x: self.x, // x-coordinate
-               y: self.y, // y-coordinate
-               vx: vx,
-               vy: vy,
-               radius: 20
-           })
-       );
+            bullet
+        );
+        world.gravity.applyTo([bullet]);        
     }
 
 

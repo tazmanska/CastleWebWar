@@ -42,37 +42,36 @@
         // render on each step
         world.on('step', function () {
             world.render();
-        });
-
-        // add a circle
-        //world.add(
-        //    Physics.body('circle', {
-        //        x: 300, // x-coordinate
-        //        y: 630, // y-coordinate
-        //        vx: 0.8, // velocity in x-direction
-        //        vy: -0.3, // velocity in y-direction
-        //        radius: 20
-        //    })
-        //);
-
-        world.addBody(Physics.body('rectangle', {
-            x: offsetLeft + 100,
-            y: 500,
-            width: 20,
-            height: 20,
-            label: 'brick'
-        }));
+        });            
         
         var edgeCollisionDetectionBehaviour = Physics.behavior('edge-collision-detection', { aabb: viewportBounds } );
         world.add(edgeCollisionDetectionBehaviour);
 
+        var bodyCollisionDetectionBehaviour = Physics.behavior('body-collision-detection');
+        world.add(bodyCollisionDetectionBehaviour);      
+        world.add(Physics.behavior('sweep-prune'));      
+
+        var brick = Physics.body('rectangle', {
+            x: offsetLeft + 100,
+            y: 500,
+            width: 20,
+            height: 20,
+            label: 'brick',
+        });
+
+
+
+        world.addBody(brick);
+
         // add some gravity
-        world.add(Physics.behavior('constant-acceleration'));
+        //world.add(Physics.behavior('constant-acceleration'));
+        world.gravity = Physics.behavior('constant-acceleration');               
 
         // subscribe to ticker to advance the simulation
         Physics.util.ticker.on(function (time, dt) {
-
-            world.step(time);
+            
+            world.step(time);                  
+            world.gravity.behave();
         });
 
         // start the ticker
@@ -89,7 +88,7 @@
                     triggerEvent = true;
                 }
                 if (c.bodyB.label == 'bullet' || c.bodyB.label == 'brick') {
-                    world.removeBody(c.bodyA);
+                    world.removeBody(c.bodyB);
                     triggerEvent = true;
                 }
             }
