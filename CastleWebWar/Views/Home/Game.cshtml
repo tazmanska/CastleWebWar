@@ -11,35 +11,46 @@
 
 <div id="game">
     <div id="game-info"><label class="player">Player 1: <span class="playerinfo" id="player1">waiting for player</span></label><label class="player">Player 2: <span class="playerinfo" id="player2">waiting for player</span></label></div>
-    
+
     <div id="progressbar" class="progressbar">
         <span class="progressbar-value">
             <em class="progressbar-cover"></em>
         </span>
     </div>
-     <div id="playground">
-            <div id="ground"></div>
-            <div id="cannon-left"  class="canon">
-                <div class="barrel"></div>
-                <div class="wheel"></div>
-            </div>
-            <div id="cannon-right" class="canon">
-                <div class="barrel"></div>
-                <div class="wheel"></div>
-            </div>
+    <div id="playground">
+        <div id="ground"></div>
+        <div id="cannon-left" class="canon">
+            <div class="barrel"></div>
+            <div class="wheel"></div>
         </div>
+        <div id="cannon-right" class="canon">
+            <div class="barrel"></div>
+            <div class="wheel"></div>
+        </div>
+    </div>
 </div>
 
 @section scripts {
+
+    <script type="text/javascript">
+
+        var playerId = '@(Model.PlayerName == Model.Game.PlayerLeft ? "player1" : "player2")';
+        var playerName = '@Model.PlayerName';
+
+        var otherPlayerId = '@(Model.PlayerName == Model.Game.PlayerLeft ? "player2" : "player1")';
+        var isOtherPlayerPresent = @(Model.PlayerName == Model.Game.PlayerLeft ? "false" : "true");
+
+        var otherPlayerName = '@(Model.PlayerName == Model.Game.PlayerLeft ? "" : Model.Game.PlayerLeft)';
+
+        var isFirstMove = !isOtherPlayerPresent;
+        var isPlayerLeft = @(Model.PlayerName == Model.Game.PlayerLeft ? "true" : "false");
+
+        var gameId = '@Model.Game.Id';
+
+    </script>
 
     <script src="/Scripts/jquery.signalR-2.0.1.min.js"></script>
     <script src="/signalr/hubs"></script>
     <script src="~/Scripts/game/PowerMeter.js"></script>
     <script src="~/Scripts/game/Game.js"></script>
-
-    <script type="text/javascript">
-
-
-
-    </script>
 }

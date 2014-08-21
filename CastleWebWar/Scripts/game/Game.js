@@ -87,19 +87,6 @@ var Game = function () {
     };
 };
 
-var playerId = '@(Model.PlayerName == Model.Game.PlayerLeft ? "player1" : "player2")';
-var playerName = '@Model.PlayerName';
-
-var otherPlayerId = '@(Model.PlayerName == Model.Game.PlayerLeft ? "player2" : "player1")';
-var isOtherPlayerPresent = @(Model.PlayerName == Model.Game.PlayerLeft ? "false" : "true");
-
-var otherPlayerName = '@(Model.PlayerName == Model.Game.PlayerLeft ? "" : Model.Game.PlayerLeft)';
-
-var isFirstMove = !isOtherPlayerPresent;
-var isPlayerLeft = @(Model.PlayerName == Model.Game.PlayerLeft ? "true" : "false");
-        
-var gameId = '@Model.Game.Id';
-
 var playerElement = null;
 var otherPlayerElement = null;
 var game = Game();
