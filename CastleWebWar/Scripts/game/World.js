@@ -64,14 +64,14 @@
         world.addBody(brick);
 
         // add some gravity
-        //world.add(Physics.behavior('constant-acceleration'));
-        world.gravity = Physics.behavior('constant-acceleration');               
+       // world.add(Physics.behavior('constant-acceleration'));
+
+        world.gravity = Physics.behavior('constant-acceleration');
+        world.gravity.connect(world);
 
         // subscribe to ticker to advance the simulation
-        Physics.util.ticker.on(function (time, dt) {
-            
-            world.step(time);                  
-            world.gravity.behave();
+        Physics.util.ticker.on(function (time, dt) {            
+            world.step(time);                              
         });
 
         // start the ticker
