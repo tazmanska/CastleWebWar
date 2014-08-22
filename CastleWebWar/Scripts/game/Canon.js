@@ -60,6 +60,23 @@
     self.getAngleRadians = function () {
         return self.angle * Math.PI / 180;
     }
+
+    self.calculateCannonEnd = function () {
+        var c = self.shootShift;
+        var b = Math.cos(self.getAngleRadians()) * c;
+        var a = Math.sin(self.getAngleRadians()) * c;
+
+        var cannonEnd = {};
+
+        if (self.toRight) {
+            cannonEnd.x = self.x + b;
+            cannonEnd.y = self.y - a;
+        } else {
+            cannonEnd.x = self.x - b;
+            cannonEnd.y = self.y - a;
+        }
+        return cannonEnd;
+    }
     self.shoot = function (power) {
         var vx, vy;
 
@@ -68,20 +85,20 @@
         var b = Math.cos(self.getAngleRadians()) * c;
         var a = Math.sin(self.getAngleRadians()) * c;
 
-        if (self.toRight) {           
+        if (self.toRight) {
             vx = b;
             vy = a * -1;
-        } else {            
+        } else {
             vx = b * -1;
             vy = a * -1;
         }
 
-        
+        var cannonEnd = self.calculateCannonEnd();
 
         var bullet = Physics.body('circle', {
             label: 'bullet',
-            x: self.x, // x-coordinate
-            y: self.y, // y-coordinate
+            x: cannonEnd.x, // x-coordinate
+            y: cannonEnd.y, // y-coordinate
             vx: vx,
             vy: vy,
             radius: 20
@@ -89,7 +106,7 @@
         world.add(
             bullet
         );
-        world.gravity.applyTo([bullet]);        
+        world.gravity.applyTo([bullet]);
     }
 
 
@@ -101,5 +118,6 @@
     });
 };
 Canon.prototype.widthShift = 60;
+Canon.prototype.shootShift = 140;
 Canon.prototype.minAngle = 10;
 Canon.prototype.maxAngle = 85;

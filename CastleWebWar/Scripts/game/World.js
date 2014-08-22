@@ -29,7 +29,7 @@
                     strokeStyle: '#351024',
                     lineWidth: 1,
                     fillStyle: '#d33682',
-                    angleIndicator: '#351024'
+                    angleIndicator: '#d33682'
                 },
                 'rectangle': {
                     fillStyle: '#ff0000'
