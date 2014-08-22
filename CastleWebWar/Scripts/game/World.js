@@ -51,17 +51,45 @@
         world.add(bodyCollisionDetectionBehaviour);      
         world.add(Physics.behavior('sweep-prune'));      
 
-        var brick = Physics.body('rectangle', {
-            x: offsetLeft + 100,
-            y: 500,
-            width: 20,
-            height: 20,
-            label: 'brick',
-        });
+        for (var i = 0, x, y = 440; i < 42; i++) {
+            x = 735 + offsetLeft + ((i % 3) * 60);
+            if (i % 3 == 0) {
+                y += 22;
+            }
+            world.addBody(Physics.body('rectangle', {
+                x: x,
+                y: y,
+                width: 40,
+                height: 15,
+                label: 'wall',
+                styles: {
+                    fillStyle: '#0000ff',
+                    lineWidth: 2
+                }
+            }));
+        }
 
+        for (var i = 0, y; i < 10; i++) {
+            world.addBody(Physics.body('rectangle', {
+                x: offsetLeft + 50,
+                y: 600 + (i * 20),
+                width: 20,
+                height: 15,
+                label: 'brick',
+                player: isPlayerLeft
+            }));
+        }
 
-
-        world.addBody(brick);
+        for (var i = 0, y; i < 10; i++) {
+            world.addBody(Physics.body('rectangle', {
+                x: offsetLeft + 1550,
+                y: 600 + (i * 20),
+                width: 20,
+                height: 15,
+                label: 'brick',
+                player: !isPlayerLeft
+            }));
+        }
 
         // add some gravity
        // world.add(Physics.behavior('constant-acceleration'));
@@ -80,6 +108,7 @@
         world.on('collisions:detected', function (data) {
             var c;
             var triggerEvent = false;
+            var triggerEvent2 = false;
             for (var i = 0, l = data.collisions.length; i < l; i++) {
                 c = data.collisions[i];
                 bullet = null;
@@ -90,6 +119,13 @@
                 if (c.bodyB.label == 'bullet' || c.bodyB.label == 'brick') {
                     world.removeBody(c.bodyB);
                     triggerEvent = true;
+                }
+
+                if (c.bodyA.label == 'wall') {
+                    world.removeBody(c.bodyA);
+                }
+                if (c.bodyB.label == 'wall') {
+                    world.removeBody(c.bodyB);
                 }
             }
             if (triggerEvent) {
