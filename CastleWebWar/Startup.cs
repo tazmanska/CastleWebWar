@@ -14,6 +14,8 @@ namespace CastleWebWar
         public void Configuration(IAppBuilder app)
         {
             app.MapSignalR();
+            //fix
+            //improvement
         }
     }
 }
