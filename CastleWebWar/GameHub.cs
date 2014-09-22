@@ -21,7 +21,7 @@ namespace CastleWebWar
         private bool _modelUpdated;
         public Broadcaster()
         {
-            // Save our hub context so we can easily use it 
+            // Save our hub context so we can easily use it aaaa
             // to send to its connected clients
             _hubContext = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
             // Start the broadcast loop
